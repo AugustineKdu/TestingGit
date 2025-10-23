@@ -3,6 +3,11 @@
 ## 개요
 React Native 기반의 크로스 플랫폼 모바일 앱 프로토타입입니다.
 
+## Figma 디자인
+🎨 **디자인 확인**: [Figma에서 보기](https://www.figma.com/design/2JyFPKO027kaLpQUEZFIKH/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&m=dev)
+
+이 앱은 Figma 디자인 시스템과 연동되어 있으며, 앱 내 설정에서도 디자인 파일에 접근할 수 있습니다.
+
 ## 기술 스택
 - **React Native**: 0.72+
 - **TypeScript**: 5.0+
@@ -54,14 +59,35 @@ npm run android
 npm start
 ```
 
+## 구현된 화면
+
+### 인증
+- 🚀 **스플래시**: 앱 시작 화면
+- 🔑 **로그인**: 이메일/소셜 로그인
+- ✍️ **회원가입**: 새 계정 만들기
+
+### 메인
+- 🏠 **홈**: 추천 콘텐츠 피드
+- 🔍 **검색**: 게시글 및 사용자 검색
+- 🔔 **알림**: 활동 알림 센터
+- 👤 **프로필**: 내 프로필 및 게시글
+
+### 설정
+- ⚙️ **설정**: 앱 설정 및 계정 관리 (Figma 링크 포함)
+- ✏️ **프로필 편집**: 프로필 정보 수정
+
+### 데모
+- 📱 **화면 목록**: 모든 화면을 쉽게 탐색할 수 있는 메뉴
+
 ## 주요 기능
 - ✅ 사용자 인증 (로그인/회원가입)
 - ✅ 프로필 관리
 - ✅ 게시글 목록 및 상세
 - ✅ 검색 기능
 - ✅ 알림 센터
-- ✅ 다크 모드
-- ✅ 다국어 지원 (한국어/영어)
+- ✅ 하단 탭 네비게이션
+- ✅ Figma 디자인 연동
+- ✅ TypeScript 타입 안전성
 
 ## 테스트
 ```bash
@@ -93,8 +119,15 @@ npm run build:prod
 ```env
 API_BASE_URL=http://localhost:3000/api/v1
 FIGMA_ACCESS_TOKEN=your_figma_token
+FIGMA_FILE_KEY=2JyFPKO027kaLpQUEZFIKH
+FIGMA_FILE_URL=https://www.figma.com/design/2JyFPKO027kaLpQUEZFIKH/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&m=dev
 GOOGLE_CLIENT_ID=your_google_client_id
 APPLE_CLIENT_ID=your_apple_client_id
+```
+
+`.env.example` 파일을 복사하여 사용하세요:
+```bash
+cp .env.example .env
 ```
 
 ## 문제 해결
