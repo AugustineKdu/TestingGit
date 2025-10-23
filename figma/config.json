@@ -1,0 +1,24 @@
+{
+  "figma": {
+    "apiUrl": "https://api.figma.com/v1",
+    "outputDir": "./design-tokens",
+    "tokenMapping": {
+      "colors": {
+        "enabled": true,
+        "outputFile": "colors.json"
+      },
+      "typography": {
+        "enabled": true,
+        "outputFile": "typography.json"
+      },
+      "spacing": {
+        "enabled": true,
+        "outputFile": "spacing.json"
+      }
+    }
+  },
+  "export": {
+    "formats": ["json", "css", "scss"],
+    "cssPrefix": "figma-"
+  }
+}

@@ -1,0 +1,129 @@
+name: 테스트 자동화
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    name: 테스트 실행
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v3
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 의존성 설치 - 테스트
+        run: |
+          cd tests
+          npm install
+
+      - name: 의존성 설치 - Figma
+        run: |
+          cd figma
+          npm install
+
+      - name: API 테스트
+        run: |
+          cd tests
+          npm run test:api
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+
+      - name: Figma 연동 테스트
+        run: |
+          cd tests
+          npm run test:figma
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+          FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+
+      - name: 테스트 결과 업로드
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: tests/results/
+
+  app-test:
+    name: 앱 테스트
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v3
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 의존성 설치
+        run: |
+          cd app
+          npm install
+
+      - name: TypeScript 타입 체크
+        run: |
+          cd app
+          npm run type-check
+
+      - name: Lint 실행
+        run: |
+          cd app
+          npm run lint
+
+      - name: 단위 테스트
+        run: |
+          cd app
+          npm test
+
+      - name: 커버리지 업로드
+        if: always()
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./app/coverage
+
+  figma-sync:
+    name: Figma 디자인 토큰 동기화
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v3
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: 의존성 설치
+        run: |
+          cd figma
+          npm install
+
+      - name: 디자인 토큰 가져오기
+        run: |
+          cd figma
+          npm run fetch
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+          FIGMA_FILE_KEY: ${{ secrets.FIGMA_FILE_KEY }}
+
+      - name: 변경사항 커밋
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add figma/design-tokens/
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: Figma 디자인 토큰 업데이트"
+          git push
