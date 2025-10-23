@@ -1,0 +1,20 @@
+{
+  "name": "testinggit-tests",
+  "version": "1.0.0",
+  "description": "테스트 스크립트 모음",
+  "scripts": {
+    "test:api": "node api-test.js",
+    "test:figma": "node figma-test.js",
+    "test:all": "npm run test:api && npm run test:figma"
+  },
+  "keywords": [
+    "testing",
+    "automation"
+  ],
+  "author": "TestingGit Team",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.5.0",
+    "dotenv": "^16.3.1"
+  }
+}

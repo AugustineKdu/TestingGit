@@ -1,0 +1,20 @@
+{
+  "name": "figma-design-tokens",
+  "version": "1.0.0",
+  "description": "Figma 디자인 토큰 추출 도구",
+  "main": "fetch-design-tokens.js",
+  "scripts": {
+    "fetch": "node fetch-design-tokens.js",
+    "test": "node test-connection.js"
+  },
+  "keywords": [
+    "figma",
+    "design-tokens",
+    "디자인시스템"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}
